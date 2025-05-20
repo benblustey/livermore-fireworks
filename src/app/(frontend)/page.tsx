@@ -1,5 +1,5 @@
 import React from 'react'
-import './styles.css'
+import './globals.css'
 
 import CardGroup from './components/CardGroup'
 import HourlyBarChart from './components/HourlyChartComponent'
