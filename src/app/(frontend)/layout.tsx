@@ -11,6 +11,9 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
 
   return (
     <html lang="en">
+      <head>
+        <link href="/favicon.ico" rel="icon" sizes="32x32" />
+      </head>
       <body>
         <main>{children}</main>
       </body>

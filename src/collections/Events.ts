@@ -5,36 +5,78 @@ export const Events: CollectionConfig = {
   access: {
     read: () => true,
   },
+  admin: {
+    useAsTitle: 'eventDate',
+  },
   fields: [
     {
-      name: 'length',
-      type: 'number',
-      required: true,
+      type: 'row',
+      fields: [
+        {
+          name: 'eventDate',
+          type: 'date',
+          required: true,
+          admin: {
+            date: {
+              pickerAppearance: 'dayAndTime',
+              displayFormat: 'd MMM yyyy h:mm aa',
+            },
+            width: '50%',
+          },
+        },
+        {
+          name: 'epoch',
+          type: 'number',
+          required: true,
+          admin: {
+            readOnly: true,
+            width: '50%',
+          },
+        },
+      ],
     },
     {
-      name: 'src',
-      type: 'text',
-      required: true,
+      type: 'row',
+      fields: [
+        {
+          name: 'length',
+          type: 'number',
+          admin: {
+            readOnly: true,
+            width: '50%',
+          },
+        },
+        {
+          name: 'src',
+          type: 'text',
+          required: true,
+          admin: {
+            readOnly: true,
+            width: '50%',
+          },
+        },
+      ],
     },
     {
-      name: 'friendlyDate',
-      type: 'text',
-      required: true,
-    },
-    {
-      name: 'epoch',
-      type: 'number',
-      required: true,
-    },
-    {
-      name: 'starred',
-      type: 'checkbox',
-      required: true,
-    },
-    {
-      name: 'approved',
-      type: 'checkbox',
-      required: true,
+      type: 'row',
+      fields: [
+        {
+          name: 'starred',
+          type: 'checkbox',
+          required: true,
+          admin: {
+            width: '25%',
+          },
+        },
+        {
+          name: 'approved',
+          type: 'checkbox',
+          required: true,
+          admin: {
+            width: '25%',
+          },
+        },
+      ],
     },
   ],
 }
