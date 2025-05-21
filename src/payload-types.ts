@@ -71,6 +71,7 @@ export interface Config {
     media: Media;
     events: Event;
     articles: Article;
+    calls: Call;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -81,6 +82,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     events: EventsSelect<false> | EventsSelect<true>;
     articles: ArticlesSelect<false> | ArticlesSelect<true>;
+    calls: CallsSelect<false> | CallsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -182,6 +184,17 @@ export interface Article {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "calls".
+ */
+export interface Call {
+  id: string;
+  eventDate: string;
+  incidentNumber?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -202,6 +215,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'articles';
         value: string | Article;
+      } | null)
+    | ({
+        relationTo: 'calls';
+        value: string | Call;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -300,6 +317,16 @@ export interface ArticlesSelect<T extends boolean = true> {
   title?: T;
   body?: T;
   href?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "calls_select".
+ */
+export interface CallsSelect<T extends boolean = true> {
+  eventDate?: T;
+  incidentNumber?: T;
   updatedAt?: T;
   createdAt?: T;
 }

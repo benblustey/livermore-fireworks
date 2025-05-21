@@ -1,31 +1,37 @@
 import HourlyBarChart from './HourlyChartComponent'
-import Heatmap from './HeatmapComponent'
+import Calendar from './CalendarComponent'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
 export const DataVisualization = async () => {
   const payload = await getPayload({ config })
   const data = await payload.find({ collection: 'events', limit: 1000 })
+  const calls = await payload.find({ collection: 'calls', limit: 1000 })
 
-  const newHeatMapData: { date: string; value: number }[] = []
+  // for (const call of calls.docs) {
+  //   console.log('call: ', call)
+  // }
+
+  const calendarData: { date: string; value: number }[] = []
 
   const eventHourlyArray = Array.from({ length: 24 }).map((_, hour) => ({ hour, value: 0 }))
+
   for (const event of data.docs) {
     const eventHour = new Date(event.eventDate).getHours()
     eventHourlyArray[eventHour].value += 1
-
     const dateFormatted = new Date(event.eventDate).toISOString().split('T')[0]
-    const dateIndex = newHeatMapData.findIndex((item) => item.date === dateFormatted)
+    const dateIndex = calendarData.findIndex((item) => item.date === dateFormatted)
     if (dateIndex !== -1) {
-      newHeatMapData[dateIndex].value += 1
+      calendarData[dateIndex].value += 1
     } else {
-      newHeatMapData.push({ date: dateFormatted, value: 1 })
+      calendarData.push({ date: dateFormatted, value: 1 })
     }
   }
+
   return (
-    <>
+    <div className="w-full max-w-7xl mx-auto mb-12">
       <HourlyBarChart data={eventHourlyArray} />
-      <Heatmap data={newHeatMapData} startDate={new Date('2024-06-24')} endDate={new Date()} />
-    </>
+      <Calendar data={calendarData} startDate={new Date('2024-06-01')} endDate={new Date()} />
+    </div>
   )
 }

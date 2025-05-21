@@ -7,7 +7,7 @@ const ArticleCardGroup = async () => {
   const articles = await payload.find({ collection: 'articles' })
 
   return (
-    <div className={`grid grid-cols-1 md:grid-cols-2 gap-16`}>
+    <div className={`w-full max-w-7xl mx-auto mb-12 grid grid-cols-1 md:grid-cols-2 gap-16`}>
       {articles.docs.map((article, i) => (
         <div
           key={i}

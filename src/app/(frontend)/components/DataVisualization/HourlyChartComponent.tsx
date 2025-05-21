@@ -10,9 +10,9 @@ type Props = {
 }
 
 const HourlyBarChart: React.FC<Props> = ({ data }) => {
-  const maxVal = 50
+  const maxVal = 65
   return (
-    <div className="w-full max-w-4xl mx-auto">
+    <div className="mb-8">
       <div className="flex items-end h-48 gap-1 relative w-full">
         {data.map(({ hour, value }) => (
           <div
@@ -23,7 +23,9 @@ const HourlyBarChart: React.FC<Props> = ({ data }) => {
               className="w-full bg-red-500  text-center rounded-t-sm transition-all duration-200 group-hover:bg-red-700 absolute bottom-0 "
               style={{ height: `${(value / maxVal) * 100}%` }}
             >
-              <span className="text-xs text-white">{`${value}`}</span>
+              <span className={`text-xs text-white ${value < 10 ? '-top-4 absolute' : ''}`}>
+                {`${value}`}
+              </span>
             </div>
             <div className="absolute z-10 -top-6 hidden group-hover:block text-xs bg-gray-800 text-white px-2 py-1 rounded shadow">
               {`Total events: ${value}`}

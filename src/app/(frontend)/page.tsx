@@ -53,12 +53,8 @@ export default async function HomePage() {
         </div>
         <div className="intro-text">
           <p>
-            The Old Town neighborhood has taken advantage of the lack of basic enforcement and
-            proper punishments for misdemeanors and felonies.
-          </p>
-          <p>
-            Unregulated parties and loud music sets the precedent of lawless behavior without any
-            concern or compassion for their fellow neighbors.
+            Using a single camera with audio analysis, this data is only a single sample of the
+            entire city.
           </p>
         </div>
         <CardGroup cards={cards} />

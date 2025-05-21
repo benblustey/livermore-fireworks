@@ -17,7 +17,7 @@ interface CardGroupProps {
 
 const CardGroup: React.FC<CardGroupProps> = ({ cards }) => {
   return (
-    <div className="w-full max-w-4xl mx-auto">
+    <div className="w-full max-w-7xl mx-auto mb-12">
       <div
         className={`p-8 mb-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 rounded-lg bg-linear-[-60deg,black_0%,red_100%]`}
       >
