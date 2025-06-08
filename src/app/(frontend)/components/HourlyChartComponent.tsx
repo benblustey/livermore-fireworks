@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 
 type HourData = {
@@ -10,7 +11,7 @@ type Props = {
 }
 
 const HourlyBarChart: React.FC<Props> = ({ data }) => {
-  const maxVal = 65
+  const maxVal = 70
   return (
     <div className="mb-8">
       <div className="flex items-end h-48 gap-1 relative w-full">
@@ -18,6 +19,9 @@ const HourlyBarChart: React.FC<Props> = ({ data }) => {
           <div
             key={hour}
             className="group relative flex flex-col items-center h-full w-full bg-gray-900 hover:bg-gray-800 transition-colors duration-200 hover:cursor-pointer"
+            onClick={() => {
+              console.log('hour: ', hour)
+            }}
           >
             <div
               className="w-full bg-red-500  text-center rounded-t-sm transition-all duration-200 group-hover:bg-red-700 absolute bottom-0 "

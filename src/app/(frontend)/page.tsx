@@ -3,15 +3,49 @@ import './globals.css'
 
 import CardGroup from './components/CardGroup'
 import ArticleCardGroup from './components/ArticleCardGroup'
-import EventData from './api/event-data.json'
-import { DataVisualization } from './components/DataVisualization'
+import { getPayload } from 'payload'
+import config from '@payload-config'
+import HourlyBarChart from './components/HourlyChartComponent'
+import Calendar from './components/CalendarComponent'
 
 export default async function HomePage() {
+  const payload = await getPayload({ config })
+  const data = await payload.find({
+    collection: 'events',
+    limit: 1000,
+    sort: 'epoch',
+  })
+  // console.log('data: ', data)
+  // const calls = await payload.find({ collection: 'calls', limit: 1000 })
+  // for (const call of calls.docs) {
+  //   console.log('call: ', call)
+  // }
+
+  const calendarData: { date: string; value: number }[] = []
+
+  const eventHourlyArray = Array.from({ length: 24 }).map((_, hour) => ({ hour, value: 0 }))
+
+  for (const event of data.docs) {
+    const date = new Date(event.epoch * 1000) // Convert seconds to ms
+    const yyyy = date.getFullYear()
+    const mm = String(date.getMonth() + 1).padStart(2, '0')
+    const dd = String(date.getDate()).padStart(2, '0')
+    const hh = String(date.getHours()).padStart(2, '0')
+    const dateFormatted = `${yyyy}-${mm}-${dd}`
+    const dateIndex = calendarData.findIndex((item) => item.date === dateFormatted)
+    eventHourlyArray[parseInt(hh)].value += 1
+
+    if (dateIndex !== -1) {
+      calendarData[dateIndex].value += 1
+    } else {
+      calendarData.push({ date: dateFormatted, value: 1 })
+    }
+  }
+
   const population = 5650
   const veterans = Math.round(population * 0.046)
-  const eventsData = EventData
-  const daysTotal = eventsData.monthlyData.length
-  const eventsTotal = eventsData.eventsTotal
+  const daysTotal = calendarData.length
+  const eventsTotal = data.docs.length
   const cards = [
     {
       data: `~${population}`,
@@ -54,11 +88,14 @@ export default async function HomePage() {
         <div className="intro-text">
           <p>
             Using a single camera with audio analysis, this data is only a single sample of the
-            entire city.
+            entire neighborhood. Estimated sample area is 0.4 mile radius.
           </p>
         </div>
         <CardGroup cards={cards} />
-        <DataVisualization />
+        <div className="w-full max-w-7xl mx-auto mb-12">
+          <HourlyBarChart data={eventHourlyArray} />
+          <Calendar data={calendarData} startDate={new Date('2024-06-01')} endDate={new Date()} />
+        </div>
         <ArticleCardGroup />
       </main>
       <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center"></footer>
