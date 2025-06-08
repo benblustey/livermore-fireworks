@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 
 interface HeatmapData {
@@ -114,6 +115,9 @@ const Calendar: React.FC<HeatmapProps> = ({
                       style={{
                         backgroundColor: getColorForValue(value),
                         cursor: 'pointer',
+                      }}
+                      onClick={() => {
+                        console.log('date: ', date)
                       }}
                     >
                       {/* Date number */}
