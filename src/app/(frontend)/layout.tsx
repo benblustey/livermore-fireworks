@@ -2,12 +2,15 @@ import React from 'react'
 import './globals.css'
 
 export const metadata = {
-  description: 'A blank template using Payload in a Next.js app.',
-  title: 'Payload Blank Template',
+  description: 'Analytical data for Livermore Fireworks',
+  title: 'Livermore Fireworks',
 }
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
   const { children } = props
+
+  const websiteStatsURL = process.env.DATA_WEBSITE_URL
+  const websiteStatsID = process.env.DATA_WEBSITE_ID
 
   return (
     <html lang="en">
@@ -15,8 +18,8 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
         <link href="/favicon.ico" rel="icon" sizes="32x32" />
         <script
           defer
-          src="https://stats.henhousesolutions.com/script.js"
-          data-website-id="e326f3e8-01a8-49b5-b76d-1716fb40a41a"
+          src={websiteStatsURL}
+          data-website-id={websiteStatsID}
         ></script>
       </head>
       <body>
