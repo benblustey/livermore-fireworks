@@ -29,7 +29,6 @@ export const Events: CollectionConfig = {
           type: 'number',
           required: true,
           admin: {
-            readOnly: true,
             width: '50%',
           },
         },
@@ -42,14 +41,12 @@ export const Events: CollectionConfig = {
           name: 'length',
           type: 'number',
           admin: {
-            readOnly: true,
             width: '50%',
           },
         },
         {
           name: 'src',
           type: 'text',
-          required: true,
           admin: {
             readOnly: true,
             width: '50%',

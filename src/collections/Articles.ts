@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 export const Articles: CollectionConfig = {
   slug: 'articles',
+  orderable: true,
   access: {
     read: () => true,
   },

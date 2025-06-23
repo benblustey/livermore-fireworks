@@ -72,6 +72,7 @@ export interface Config {
     events: Event;
     articles: Article;
     calls: Call;
+    ordinances: Ordinance;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -83,6 +84,7 @@ export interface Config {
     events: EventsSelect<false> | EventsSelect<true>;
     articles: ArticlesSelect<false> | ArticlesSelect<true>;
     calls: CallsSelect<false> | CallsSelect<true>;
+    ordinances: OrdinancesSelect<false> | OrdinancesSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -164,7 +166,7 @@ export interface Event {
   eventDate: string;
   epoch: number;
   length?: number | null;
-  src: string;
+  src?: string | null;
   starred: boolean;
   approved: boolean;
   updatedAt: string;
@@ -176,6 +178,7 @@ export interface Event {
  */
 export interface Article {
   id: string;
+  _order?: string | null;
   title: string;
   body: string;
   href: string;
@@ -192,6 +195,45 @@ export interface Call {
   incidentNumber?: number | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ordinances".
+ */
+export interface Ordinance {
+  id: string;
+  _order?: string | null;
+  location: string;
+  boldText?: boolean | null;
+  highlighted?: boolean | null;
+  ordinance?: Meta;
+  penalties?: Meta;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Meta".
+ */
+export interface Meta {
+  penaltiesTextRich?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  penaltiesText?: string | null;
+  penaltiesLink?: string | null;
+  penaltiesLinkText?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -219,6 +261,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'calls';
         value: string | Call;
+      } | null)
+    | ({
+        relationTo: 'ordinances';
+        value: string | Ordinance;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -314,6 +360,7 @@ export interface EventsSelect<T extends boolean = true> {
  * via the `definition` "articles_select".
  */
 export interface ArticlesSelect<T extends boolean = true> {
+  _order?: T;
   title?: T;
   body?: T;
   href?: T;
@@ -329,6 +376,30 @@ export interface CallsSelect<T extends boolean = true> {
   incidentNumber?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ordinances_select".
+ */
+export interface OrdinancesSelect<T extends boolean = true> {
+  _order?: T;
+  location?: T;
+  boldText?: T;
+  highlighted?: T;
+  ordinance?: T | MetaSelect<T>;
+  penalties?: T | MetaSelect<T>;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Meta_select".
+ */
+export interface MetaSelect<T extends boolean = true> {
+  penaltiesTextRich?: T;
+  penaltiesText?: T;
+  penaltiesLink?: T;
+  penaltiesLinkText?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
